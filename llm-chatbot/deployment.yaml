@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-chatbot
+  namespace: mrnwaiwu-apps
+  labels:
+    app: llm-chatbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llm-chatbot
+  template:
+    metadata:
+      labels:
+        app: llm-chatbot
+    spec:
+      containers:
+        - name: llm-chatbot
+          image: mrnwaiwu/llm-chatbot:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: llm-chatbot-secrets
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 15
