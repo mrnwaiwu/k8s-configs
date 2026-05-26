@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: weather-api-config
+  namespace: mrnwaiwu-apps
+data:
+  CACHE_TTL: "300"
+  LOG_LEVEL: "INFO"
+  PORT: "8000"
